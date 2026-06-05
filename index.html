@@ -166,7 +166,9 @@ nav{padding:16px 20px}
 		<p><strong>Email:</strong> <a href="mailto:contact@ssvlegal.com">contact@ssvlegal.com</a></p>
 		<p><strong>Office Hours:</strong> Mon–Fri 09:30–18:00</p>
 	</div>
-	<form id="contactForm" method="post" action="#" novalidate>
+	<form id="contactForm" method="post" action="https://formspree.io/f/xykazbko" novalidate>
+	<input type="hidden" name="_subject" value="New enquiry from SSV Legal website">
+	<input type="hidden" name="_captcha" value="false">
 	<label class="sr-only" for="name">Full Name</label>
 	<input id="name" name="name" type="text" placeholder="Full Name" required>
 
@@ -274,11 +276,36 @@ if (contactForm) {
 			return;
 		}
 
-		// simulate successful submit
-		formMessage.style.color = 'lightgreen';
-		formMessage.textContent = 'Thank you — your enquiry has been submitted.';
-		contactForm.reset();
-		setTimeout(() => { formMessage.textContent = ''; formMessage.style.color = '#d0d0d0'; }, 5000);
+		formMessage.style.color = 'inherit';
+		formMessage.textContent = 'Sending message…';
+
+		fetch(contactForm.action, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: name.value.trim(),
+				email: email.value.trim(),
+				phone: document.getElementById('phone').value.trim(),
+				message: message.value.trim()
+			})
+		})
+			.then(async (response) => {
+				const result = await response.json();
+				if (!response.ok) {
+					throw new Error(result.error || result.message || 'Unable to send enquiry.');
+				}
+				formMessage.style.color = 'lightgreen';
+				formMessage.textContent = result.message || 'Thank you — your enquiry has been submitted.';
+				contactForm.reset();
+			})
+			.catch((error) => {
+				formMessage.style.color = '#f4b4b4';
+				formMessage.textContent = error.message || 'Unable to send enquiry. Please try again later.';
+			});
+			e.preventDefault();
 	});
 }
 
