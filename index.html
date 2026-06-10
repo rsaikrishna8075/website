@@ -31,11 +31,30 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:25px 6
 .content{padding:80px 60px;max-width:1240px;margin:0 auto}
 .tabcontent{display:none;animation:fade .5s ease}
 .tabcontent.active{display:block}
+#partners, #contact{scroll-margin-top:110px}
 @keyframes fade{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;margin-top:30px}
 .card{background:rgba(255,255,255,.06);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);padding:26px;border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.18);transition:transform .3s ease,filter .3s ease}
 .card:hover{transform:translateY(-6px);filter:brightness(1.03)}
 .card h3{color:var(--gold);font-size:1.35rem;margin-bottom:10px}
+.service-card{display:flex;flex-direction:column;gap:10px}
+.service-card p{color:#d7deea;line-height:1.7}
+.service-detail{display:none;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
+.service-detail p{margin:0;color:#edf2fb}
+.view-more{margin-top:6px;align-self:flex-start;border:1px solid rgba(212,165,76,.7);background:rgba(212,165,76,.08);color:var(--gold);padding:10px 14px;border-radius:999px;font-weight:600;cursor:pointer;transition:all .25s ease}
+.view-more:hover{background:rgba(212,165,76,.16);transform:translateY(-1px)}
+.view-more:focus-visible{outline:3px solid rgba(212,165,76,.6);outline-offset:3px}
+body.modal-open{overflow:hidden}
+.service-modal-overlay{position:fixed;inset:0;background:rgba(3,10,23,.82);display:flex;align-items:center;justify-content:center;padding:18px;z-index:1000}
+.service-modal-overlay[hidden]{display:none}
+.service-modal-card{width:min(760px,100%);background:linear-gradient(180deg,#121d2e,#0a121c);border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.45);padding:24px 24px 18px;color:#edf2fb;max-height:90vh;overflow:auto}
+.service-modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:10px}
+.service-modal-card h3{color:var(--gold);font-size:1.4rem;margin-bottom:8px}
+.service-modal-close{background:transparent;border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:999px;width:40px;height:40px;display:grid;place-items:center;cursor:pointer;font-size:1.05rem}
+.service-modal-close:hover{background:rgba(255,255,255,.08)}
+.service-modal-card p{color:#e4eaf2;line-height:1.75}
+.service-modal-highlights{margin:12px 0 0 18px;color:#edf2fb;line-height:1.6}
+.service-modal-note{margin-top:12px;color:#d4b36f;font-size:.95rem}
 .about-card{padding:38px;line-height:1.85}
 .about-card p{color:#d1d4de;margin-bottom:16px}
 .about-card strong{color:#fff}
@@ -137,66 +156,166 @@ nav{padding:16px 20px}
 <div id="services" class="tabcontent" role="tabpanel" aria-labelledby="tab-services" tabindex="0">
 <h2>Practice Areas</h2>
 <div class="grid">
-<div class="card"><h3>Corporate Law</h3><p>Business structuring, governance, and transactions.</p></div>
-<div class="card"><h3>Contracts</h3><p>Drafting, reviewing and negotiation of agreements.</p></div>
-<div class="card"><h3>Litigation</h3><p>Representation before courts and tribunals.</p></div>
-<div class="card"><h3>Real Estate</h3><p>Property transactions and due diligence.</p></div>
-<div class="card"><h3>Compliance</h3><p>Regulatory and statutory advisory.</p></div>
-<div class="card"><h3>Employment Law</h3><p>Workplace and HR legal support.</p></div>
+<div class="card service-card">
+  <h3>Corporate Law</h3>
+  <p>Business structuring, governance, and transactions.</p>
+  <div class="service-detail" id="service-corporate-detail">
+    <p>We support company formation, shareholder arrangements, governance advice, mergers, and strategic transactions with a focus on commercial clarity and compliance.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-corporate-detail" onclick="openServiceModal(this)">View more</button>
+</div>
+<div class="card service-card">
+  <h3>Contracts</h3>
+  <p>Drafting, reviewing and negotiation of agreements.</p>
+  <div class="service-detail" id="service-contracts-detail">
+    <p>Our team drafts, reviews, and negotiates commercial contracts, service agreements, MoUs, NDAs, and transaction documents to protect your interests and reduce risk.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-contracts-detail" onclick="openServiceModal(this)">View more</button>
+</div>
+<div class="card service-card">
+  <h3>Litigation</h3>
+  <p>Representation before courts and tribunals.</p>
+  <div class="service-detail" id="service-litigation-detail">
+    <p>We handle civil, commercial, and dispute matters with strong case strategy, evidence preparation, and focused advocacy to protect your legal and commercial position.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-litigation-detail" onclick="openServiceModal(this)">View more</button>
+</div>
+<div class="card service-card">
+  <h3>Real Estate</h3>
+  <p>Property transactions and due diligence.</p>
+  <div class="service-detail" id="service-real-estate-detail">
+    <p>From title checks and lease review to tenant, purchase, and development matters, we guide real estate transactions with careful legal diligence and practical advice.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-real-estate-detail" onclick="openServiceModal(this)">View more</button>
+</div>
+<div class="card service-card">
+  <h3>Compliance</h3>
+  <p>Regulatory and statutory advisory.</p>
+  <div class="service-detail" id="service-compliance-detail">
+    <p>We help clients navigate licensing, reporting, regulatory updates, and statutory compliance requirements to avoid penalties and stay aligned with changing legal obligations.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-compliance-detail" onclick="openServiceModal(this)">View more</button>
+</div>
+<div class="card service-card">
+  <h3>Employment Law</h3>
+  <p>Workplace and HR legal support.</p>
+  <div class="service-detail" id="service-employment-detail">
+    <p>We advise on employment agreements, HR policies, workplace disputes, compliance, and advisory support for employers seeking practical and lawful workforce solutions.</p>
+  </div>
+  <button type="button" class="view-more" aria-expanded="false" aria-controls="service-employment-detail" onclick="openServiceModal(this)">View more</button>
 </div>
 </div>
 
-<div id="partners" class="tabcontent" role="tabpanel" aria-labelledby="tab-partners" tabindex="0">
-<h2>Founding Partners</h2>
-<div class="grid">
-<div class="card partner"><img src="Saikrishna.jpeg" alt="Saikrishna Reddy" loading="lazy"><h3>Saikrishna Reddy</h3><p>Founding Partner</p></div>
-<div class="card partner"><img src="Sameera.jpeg" alt="Sameera Siddiqui" loading="lazy"><h3>Sameera Siddiqui</h3><p>Founding Partner</p></div>
-<div class="card partner"><img src="vineela.jpeg" alt="Vineela Patil" loading="lazy"><h3>Vineela Patil</h3><p>Founding Partner</p></div>
-</div>
-</div>
-
-<div id="contact" class="tabcontent" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
-<h2>Contact Us</h2>
-<div class="contactbox">
-	<div id="map" role="region" aria-label="Map showing our location"></div>
-	<div class="contact-details" aria-label="Company contact details">
-		<h3>Contact Details</h3>
-		<p><strong>Address:</strong> 12 Marine Lines, Churchgate, Mumbai 400020, India</p>
-		<p><strong>Phone:</strong> <a href="tel:+919321524847">+91 93215 24847</a></p>
-		<p><strong>Email:</strong> <a href="mailto:contact@ssvlegal.com">contact@ssvlegal.com</a></p>
-		<p><strong>Office Hours:</strong> Mon–Fri 09:30–18:00</p>
-	</div>
-	<form id="contactForm" method="post" action="https://formspree.io/f/xykazbko" novalidate>
-	<input type="hidden" name="_subject" value="New enquiry from SSV Legal website">
-	<input type="hidden" name="_captcha" value="false">
-	<label class="sr-only" for="name">Full Name</label>
-	<input id="name" name="name" type="text" placeholder="Full Name" required>
-
-	<label class="sr-only" for="email">Email Address</label>
-	<input id="email" name="email" type="email" placeholder="Email Address" required>
-
-	<label class="sr-only" for="phone">Phone Number</label>
-	<input id="phone" name="phone" type="tel" placeholder="Phone Number">
-
-	<label class="sr-only" for="message">Your Message</label>
-	<textarea id="message" name="message" placeholder="Your Message" required></textarea>
-
-	<button class="submit" type="submit">Send Enquiry</button>
-	<div id="formMessage" aria-live="polite" style="margin-top:10px;color:#d0d0d0"></div>
-	</form>
-</div>
+<div id="serviceModal" class="service-modal-overlay" hidden>
+  <div class="service-modal-card" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <div class="service-modal-header">
+      <div>
+        <h3 id="serviceModalTitle">Service details</h3>
+        <p id="serviceModalIntro"></p>
+      </div>
+      <button type="button" class="service-modal-close" id="closeServiceModal" aria-label="Close service details">×</button>
+    </div>
+    <div id="serviceModalContent"></div>
+    <p class="service-modal-note">Need tailored guidance for this practice area? Contact our team for a consultation.</p>
+  </div>
 </div>
 
 </div>
+
+<div id="partners" class="tabcontent" role="tabpanel" aria-labelledby="tab-partners" tabindex="0"><h2>Founding Partners</h2><div class="grid"><div class="card partner"><img src="https://rsaikrishna8075.github.io/website/Saikrishna.jpeg" alt="Saikrishna Reddy" loading="lazy"><h3>Saikrishna Reddy</h3><p>Founding Partner</p></div><div class="card partner"><img src="https://rsaikrishna8075.github.io/website/Sameera.jpeg" alt="Sameera Siddiqui" loading="lazy"><h3>Sameera Siddiqui</h3><p>Founding Partner</p></div><div class="card partner"><img src="https://rsaikrishna8075.github.io/website/vineela.jpeg" alt="Vineela Patil" loading="lazy"><h3>Vineela Patil</h3><p>Founding Partner</p></div></div></div>
+<div id="contact" class="tabcontent" role="tabpanel" aria-labelledby="tab-contact" tabindex="0"><h2>Contact Us</h2><div class="contactbox"><div id="map" role="region" aria-label="Map showing our location"></div><div class="contact-details" aria-label="Company contact details"><h3>Contact Details</h3><p><strong>Address:</strong> 12 Marine Lines, Churchgate, Mumbai 400020, India</p><p><strong>Phone:</strong> <a href="tel:+919321524847">+91 93215 24847</a></p><p><strong>Email:</strong> <a href="mailto:contact@ssvlegal.com">contact@ssvlegal.com</a></p><p><strong>Office Hours:</strong> Mon–Fri 09:30–18:00</p></div><form id="contactForm" method="post" action="https://formspree.io/f/xykazbko" novalidate><input type="hidden" name="_subject" value="New enquiry from SSV Legal website"><input type="hidden" name="_captcha" value="false"><label class="sr-only" for="name">Full Name</label><input id="name" name="name" type="text" placeholder="Full Name" required><label class="sr-only" for="email">Email Address</label><input id="email" name="email" type="email" placeholder="Email Address" required><label class="sr-only" for="phone">Phone Number</label><input id="phone" name="phone" type="tel" placeholder="Phone Number"><label class="sr-only" for="message">Your Message</label><textarea id="message" name="message" placeholder="Your Message" required></textarea><button class="submit" type="submit">Send Enquiry</button><div id="formMessage" aria-live="polite" style="margin-top:10px;color:#d0d0d0"></div></form></div></div>
 
 <footer>© 2026 SSV Legal Associates | Mumbai, India</footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 let leafletMap = null;
 
+const SERVICE_DETAILS = {
+	'Corporate Law': {
+		intro: 'Strategic corporate support for founders, boards, and growing businesses.',
+		image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=900&auto=format&fit=crop',
+		description: 'We help companies build resilient legal foundations through careful structuring, governance planning, and transaction support. From incorporation to strategic growth decisions, our counsel balances legal compliance with commercial practicality.',
+		details: ['Company formation and structuring advice', 'Shareholder agreements and governance support', 'Mergers, restructuring, and transaction planning', 'Risk-focused legal guidance for long-term growth']
+	},
+	'Contracts': {
+		intro: 'Clear, enforceable agreements tailored to commercial and operational needs.',
+		image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=900&auto=format&fit=crop',
+		description: 'Our contracts practice focuses on drafting precise terms, protecting commercial interests, and reducing future disputes. We review vendor, client, employment, and commercial arrangements with attention to scope, risk allocation, and enforceability.',
+		details: ['Drafting and review of commercial contracts', 'Negotiation support for terms, scope, and liability', 'Protection for vendors, service providers, and clients', 'Clause design to minimise future disputes']
+	},
+	'Litigation': {
+		intro: 'Practical dispute strategy and representation before courts and tribunals.',
+		image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=900&auto=format&fit=crop',
+		description: 'When disputes escalate, we align evidence, legal strategy, and timely representation to safeguard your position. Our approach combines case analysis, procedural discipline, and clear communication at every stage.',
+		details: ['Civil and commercial dispute management', 'Evidence preparation and case analysis', 'Representation for hearings and procedural matters', 'Focused advice to protect business and personal interests']
+	},
+	'Real Estate': {
+		intro: 'End-to-end legal support for property transactions and due diligence.',
+		image: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=900&auto=format&fit=crop',
+		description: 'We guide clients through title checks, lease review, purchase negotiations, and development-related documentation. Every matter is reviewed for legal certainty, ownership clarity, and practical risk mitigation.',
+		details: ['Title review and ownership verification', 'Lease, sale, and purchase transaction support', 'Due diligence for property investments and development', 'Advice on documentation, registration, and risk mitigation']
+	},
+	'Compliance': {
+		intro: 'Regulatory guidance to keep your business compliant and prepared.',
+		image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=900&auto=format&fit=crop',
+		description: 'Regulatory compliance is essential for sustainable operations. We help businesses understand reporting obligations, statutory requirements, licensing needs, and internal controls to stay ahead of legal and operational risks.',
+		details: ['Statutory and regulatory advisory', 'Licensing, reporting, and compliance reviews', 'Policy drafting and implementation support', 'Ongoing monitoring of changing legal requirements']
+	},
+	'Employment Law': {
+		intro: 'Workplace legal support for hiring, policy, and employment matters.',
+		image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900&auto=format&fit=crop',
+		description: 'We support employers and professionals with hiring documentation, workplace policies, and dispute-related advice. The goal is to protect relationships, reduce risk, and ensure compliance in everyday employment matters.',
+		details: ['Employment agreements and HR documentation', 'Workplace dispute and policy advice', 'Compliance support for employment obligations', 'Practical guidance for employer risk management']
+	}
+};
+
+function openServiceModal(button) {
+	const card = button.closest('.service-card');
+	const title = card ? card.querySelector('h3').textContent.trim() : 'Service details';
+	const service = SERVICE_DETAILS[title] || {
+		intro: 'Detailed legal guidance for this practice area.',
+		image: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=900&auto=format&fit=crop',
+		description: 'We provide tailored legal advice, practical options, and clear next steps for your matter, with a focus on results and risk reduction.',
+		details: ['Personalized advice tailored to your specific matter', 'End-to-end legal support and practical options', 'Clear recommendations aligned with your business goals']
+	};
+
+	const modal = document.getElementById('serviceModal');
+	const titleEl = document.getElementById('serviceModalTitle');
+	const introEl = document.getElementById('serviceModalIntro');
+	const contentEl = document.getElementById('serviceModalContent');
+
+	if (!modal || !titleEl || !introEl || !contentEl) return;
+
+	titleEl.textContent = title;
+	introEl.textContent = service.intro;
+	contentEl.innerHTML = `
+		<div style="display:grid; gap:16px;">
+		  <img src="${service.image}" alt="${title} service illustration" style="width:100%; height:220px; object-fit:cover; border-radius:18px; border:1px solid rgba(255,255,255,.08);">
+		  <p style="margin:0; color:#edf2fb; line-height:1.75;">${service.description}</p>
+		  <div>
+		    <p style="margin:0 0 8px; color:#d4b36f; font-weight:600;">What this service includes</p>
+		    <ul class="service-modal-highlights">${service.details.map(item => '<li>' + item + '</li>').join('')}</ul>
+		  </div>
+		</div>`;
+
+	modal.hidden = false;
+	document.body.classList.add('modal-open');
+}
+
+function closeServiceModal() {
+	const modal = document.getElementById('serviceModal');
+	if (modal) {
+		modal.hidden = true;
+	}
+	document.body.classList.remove('modal-open');
+}
+
 function openTab(id, el) {
 	const panels = document.querySelectorAll('.tabcontent');
-	panels.forEach(p => p.classList.remove('active'));
+	panels.forEach(p => {
+		p.classList.remove('active');
+		p.style.display = 'none';
+	});
 
 	const tabs = document.querySelectorAll('[role="tab"]');
 	tabs.forEach(t => {
@@ -208,23 +327,35 @@ function openTab(id, el) {
 	const panel = document.getElementById(id);
 	if (panel) {
 		panel.classList.add('active');
+		panel.style.display = 'block';
+		setTimeout(() => {
+			const top = Math.max(0, (panel.offsetTop || 0) - 90);
+			window.scrollTo({ top, behavior: 'smooth' });
+		}, 40);
 	}
 
 	if (el) {
 		el.classList.add('active');
 		el.setAttribute('aria-selected', 'true');
 		el.tabIndex = 0;
-		el.focus();
+	}
+
+	if (id === 'partners' || id === 'contact') {
+		setTimeout(() => {
+			window.scrollTo({
+				top: Math.max(0, document.body.scrollHeight - window.innerHeight + 80),
+				behavior: 'smooth'
+			});
+		}, 60);
 	}
 
 	if (id === 'contact' && leafletMap) {
 		setTimeout(() => {
 			leafletMap.invalidateSize();
-			leafletMap.setView([19.0760, 72.8777], 13);
+			leafletMap.setView([18.9292, 72.8257], 16);
 		}, 200);
 	}
 
-	window.scrollTo({ top: window.innerHeight - 80, behavior: 'smooth' });
 }
 
 // keyboard navigation for tabs
@@ -250,6 +381,27 @@ document.querySelectorAll('[role="tab"]').forEach(tab => {
 });
 
 // basic client-side form validation
+const serviceModal = document.getElementById('serviceModal');
+const closeServiceModalBtn = document.getElementById('closeServiceModal');
+
+if (serviceModal) {
+	serviceModal.addEventListener('click', (event) => {
+		if (event.target === serviceModal) {
+			closeServiceModal();
+		}
+	});
+}
+
+if (closeServiceModalBtn) {
+	closeServiceModalBtn.addEventListener('click', closeServiceModal);
+}
+
+document.addEventListener('keydown', (event) => {
+	if (event.key === 'Escape') {
+		closeServiceModal();
+	}
+});
+
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
 	contactForm.addEventListener('submit', function (e) {
@@ -313,11 +465,11 @@ if (contactForm) {
 try{
 	const mapEl = document.getElementById('map');
 	if(mapEl){
-		leafletMap = L.map('map', {keyboard: true}).setView([19.0760, 72.8777], 13);
+		leafletMap = L.map('map', {keyboard: true}).setView([18.9292, 72.8257], 16);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; OpenStreetMap contributors'
 		}).addTo(leafletMap);
-		const marker = L.marker([19.0760, 72.8777]).addTo(leafletMap).bindPopup('<strong>SSV Legal Associates</strong><br>Mumbai, India');
+		const marker = L.marker([18.9292, 72.8257]).addTo(leafletMap).bindPopup('<strong>SSV Legal Associates</strong><br>12 Marine Lines, Churchgate, Mumbai 400020');
 		marker.openPopup();
 	}
 }catch(e){console.warn('Map init failed', e)}
